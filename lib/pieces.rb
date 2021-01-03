@@ -1,16 +1,24 @@
 require 'colorize'
 class Piece
-    def initialize(color,position)
-        @color = color
+@@total_pieces=0
+    def initialize()
         @move_count=0
-        @position = push(position)
+        #@position = push(position)
+        @taken=false
+        @@total_pieces+=1
     end
 end
-
-class Pawn < Piece
-    def initialize
-    
+class BlackPawn < Piece
+    def initialize()
+        @color ="black" 
+        @symbol="♟︎"
     end
-
-
+    attr_reader :symbol
+end
+class WhitePawn < Piece
+    def initialize()
+        @color ="white" 
+        @symbol="♙"
+    end
+    attr_reader :symbol
 end
