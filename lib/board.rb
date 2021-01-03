@@ -4,7 +4,7 @@ class ChessBoard
         @spaces = Array.new(64," ")
 
     end
-    attr_reader :spaces
+    attr_accessor :spaces
     def print_board
         @s=1
         @piece=""
@@ -30,10 +30,35 @@ class ChessBoard
 
     
     end
-    def set_pieces
-#        @spaces[8..15].each_with_index do |space,i|
-#           space=WhitePawn.new
-#        end
-        @spaces[8]=WhitePawn.new()
+    def set_pieces #sets all pieces to starting position
+        @spaces[48..55].each_with_index do |space,i|
+            @spaces[i+48]=WhitePawn.new
+        end
+        @spaces[7..14].each_with_index do |space,i|
+            @spaces[i+8]=BlackPawn.new
+            end
+        @spaces[56]=WhiteRook.new
+        @spaces[63]=WhiteRook.new
+        @spaces[57]=WhiteKnight.new
+        @spaces[62]=WhiteKnight.new
+        @spaces[58]=WhiteBishop.new
+        @spaces[61]=WhiteBishop.new
+        @spaces[59]=WhiteQueen.new
+        @spaces[60]=WhiteKing.new
+
+        @spaces[0]=BlackRook.new
+        @spaces[7]=BlackRook.new
+        @spaces[1]=BlackKnight.new
+        @spaces[6]=BlackKnight.new
+        @spaces[2]=BlackBishop.new
+        @spaces[5]=BlackBishop.new
+        @spaces[3]=BlackQueen.new
+        @spaces[4]=BlackKing.new
+
+        @spaces[23..46].each_with_index do |space,i|
+            @spaces[i+24]=" "
+            end
+    
+         
     end
 end
