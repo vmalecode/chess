@@ -7,120 +7,172 @@ class Piece
         @taken=false
         @@total_pieces+=1
     end
+    def change_position(row,column)
+    @r = row
+    @c = column
+    @position = [[row],[column]]
+    end
+    attr_accessor :r,:c
 end
 class BlackPawn < Piece
-    def initialize(position)
+    def initialize(r,c)
         @color ="black" 
         @symbol="♙"
-        @position=position
+        @r=r
+        @c=c
+        @position=[[r],[c]]
         @move_count=0
         @valid_moves=[]
+        @attacking=[]
+    end
+    def get_valid_moves(board_array)
+        if board_array[@r+1][@c]==" "
+            @valid_moves.push([@r+1,@c])
+        end
+        if board_array[@r+2][@c]==" " && board_array[@r+1][@c]==" " && @move_count==0
+            @valid_moves.push([@r,@c+2])
+        end
+        if board_array[@r+1][@c+1] != " " && board_array[@r+1][@c+1].color =="white"
+            @valid_moves.push([@r+1][@c+1])
+            @attacking.push([@r+1][@c+1])
+        end
+        if board_array[@r+1][@c-1] != " " && board_array[@r+1][@c-1].color =="white"
+            @valid_moves.push([@r+1][@c-1])
+            @attacking.push([@r+1][@c-1])
+        end
+    end
+
+    attr_reader :symbol,:color
+end
+class WhitePawn < Piece
+    def initialize(r,c)
+        @color ="white" 
+        @symbol="♟︎"
+        @r=r
+        @c=c
+        @position=[[r],[c]]
+        @valid_moves=[]
+        @attacking=[]
     end
     def get_valid_moves(board_array)
         @valid_moves=[]
-        if @move_count==0 && board_array[@position+8]== " " && board_array[@position+16]== " "
-            @valid_moves.push(@position+16)
+        @attacking=[]
+        if board_array[@r-1][@c]==" "
+            @valid_moves.push([@r-1,@c])
         end
-        if board_array[@position+8]==" "
-            @valid_moves.push(@position+8)
+        if board_array[@r-2][@c]==" " && board_array[@r-1][@c]==" " && @move_count==0
+            @valid_moves.push([@r,@c+2])
         end
-        if board_array[@position+7]!=" "
-            @valid_moves.push(@position+7)
+        if board_array[@r-1][@c-1] != " " && board_array[@r-1][@c-1].color =="black"
+            @valid_moves.push([@r+1][@c+1])
+            @attacking.push([@r+1][@c+1])
         end
-        if board_array[@position+9]!=" "
-            @valid_moves.push(@position+9)
+        if board_array[@r+1][@c-1] != " " && board_array[@r+1][@c-1].color =="black"
+            @valid_moves.push([@r+1][@c-1])
+            @attacking.push([@r+1][@c-1])
         end
     end
-
-    attr_reader :symbol
-end
-class WhitePawn < Piece
-    def initialize(position)
-        @color ="white" 
-        @symbol="♟︎"
-        @position=position
-    end
-    attr_reader :symbol
+    attr_reader :symbol,:color
 end
 
 class WhiteRook < Piece
-    def initialize(position)
+    def initialize(r,c)
         @color ="white" 
         @symbol="♜"
-        @position=position
+        @r=r
+        @c=c
+        @position=[[r],[c]]
     end
-    attr_reader :symbol
+    attr_reader :symbol,:color
 end
 class WhiteKnight < Piece
-    def initialize(position)
+    def initialize(r,c)
         @color ="white" 
         @symbol="♞"
-        @position=position
+        @r=r
+        @c=c
+        @position=[[r],[c]]
     end
-    attr_reader :symbol
+    attr_reader :symbol,:color
 end
 class WhiteBishop < Piece
-    def initialize(position)
+    def initialize(r,c)
         @color ="white" 
         @symbol="♝"
-        @position=position
+        @r=r
+        @c=c
+        @position=[[r],[c]]
     end
-    attr_reader :symbol
+    attr_reader :symbol,:color
 end
 class WhiteKing < Piece
-    def initialize(position)
+    def initialize(r,c)
         @color ="white" 
         @symbol="♚"
-        @position=position
+        @r=r
+        @c=c
+        @position=[[r],[c]]
     end
-    attr_reader :symbol
+    attr_reader :symbol,:color
 end
 class WhiteQueen < Piece
-    def initialize(position)
+    def initialize(r,c)
         @color ="white" 
         @symbol="♛"
-        @position=position
+        @r=r
+        @c=c
+        @position=[[r],[c]]
     end
-    attr_reader :symbol
+    attr_reader :symbol,:color
 end
 
 class BlackRook < Piece
-    def initialize(position)
+    def initialize(r,c)
         @color ="black" 
         @symbol="♖"
-        @position=position
+        @r=r
+        @c=c
+        @position=[[r],[c]]
     end
-    attr_reader :symbol
+    attr_reader :symbol,:color
 end
 class BlackKnight < Piece
-    def initialize(position)
+    def initialize(r,c)
         @color ="black" 
         @symbol="♘"
-        @position=position
+        @r=r
+        @c=c
+        @position=[[r],[c]]
     end
-    attr_reader :symbol
+    attr_reader :symbol,:color
 end
 class BlackBishop < Piece
-    def initialize(position)
+    def initialize(r,c)
         @color ="black" 
         @symbol="♙"
-        @position=position
+        @r=r
+        @c=c
+        @position=[[r],[c]]
     end
-    attr_reader :symbol
+    attr_reader :symbol,:color
 end
 class BlackKing < Piece
-    def initialize(position)
+    def initialize(r,c)
         @color ="black" 
         @symbol="♔"
-        @position=position
+        @r=r
+        @c=c
+        @position=[[r],[c]]
     end
-    attr_reader :symbol
+    attr_reader :symbol,:color
 end
 class BlackQueen < Piece
-    def initialize(position)
+    def initialize(r,c)
         @color ="black" 
         @symbol="♕"
-        @position=position
+        @r=r
+        @c=c
+        @position=[[r],[c]]
     end
-    attr_reader :symbol
+    attr_reader :symbol,:color
 end
