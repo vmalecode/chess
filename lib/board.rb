@@ -5,7 +5,7 @@ class ChessBoard
 
     end
     attr_accessor :board_array, :board_string
-    def print_board
+    def print_board(moves=[])
         puts "   0  1  2  3  4  5  6  7  "
         @s=1
         @r_num=0
@@ -19,11 +19,21 @@ class ChessBoard
                     @square = " "
                 end
                 if @s.even?
-                    print " #{@square} ".colorize(:background => :light_black)
-                    @s+=1
+                    if moves.include?([i,j])
+                        print " #{@square} ".colorize(:background => :red)
+                        @s+=1    
+                    else
+                        print " #{@square} ".colorize(:background => :light_black)
+                        @s+=1
+                    end
                 else
-                    print " #{@square} ".colorize(:background => :black)
-                    @s+=1
+                    if moves.include?([i,j])
+                        print " #{@square} ".colorize(:background => :red)
+                        @s+=1
+                    else
+                        print " #{@square} ".colorize(:background => :black)
+                        @s+=1
+                    end
                 end
             end
             puts 
@@ -77,7 +87,7 @@ class ChessBoard
         @board_array[r1][c1]=" "
     end
     def add_white_pawn(r1,c1)
-    @board_array[r1][c1]=WhitePawn.new(r1,c1)
+        @board_array[r1][c1]=WhitePawn.new(r1,c1)
     end
     def add_black_pawn(r1,c1)
         @board_array[r1][c1]=BlackPawn.new(r1,c1)
@@ -92,30 +102,4 @@ class ChessBoard
     end        
 
 
-    def get_board_string
-        @board_string= "   0  1  2  3  4  5  6  7  \n"
-        @s=1
-        @r_num=0
-        @square=""
-        @board_array.each_with_index do |sub, i|
-            @board_string=@board_string+ "#{@r_num} "
-            sub.each_with_index do |row_element,j|
-                if row_element !=" "
-                    @square=row_element.symbol
-                else
-                    @square = " "
-                end
-                if @s.even?
-                    @board_string= @board_string + " #{@square} ".colorize(:background => :light_black)
-                    @s+=1
-                else
-                    @board_string+ " #{@square} ".colorize(:background => :black)
-                    @s+=1
-                end
-            end
-            @board_string=@board_string+"\n" 
-            @r_num+=1   
-            @s+=1
-        end
-    end
 end

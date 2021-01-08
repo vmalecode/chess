@@ -1,13 +1,14 @@
 require 'colorize'
 class Piece
-@@total_pieces=0
-    def initialize()
+    @@total_pieces=0
+    def initialize(board_array)
         @move_count=0
         #@position = push(position)
         @taken=false
         @@total_pieces+=1
         @attacking=[]
         @moves=[]
+        @board_array=board_array
     end
     def change_position(row,column)
         @r = row
@@ -93,40 +94,43 @@ class Piece
         @i+=1
         end
     end
+    def knight_moves(board_array)
+
+    end
 
 
-
-    attr_accessor :r,:c,:valid_moves,:color,:moves
+    attr_accessor :r,:c,:moves,:color,:moves
 end
 class BlackPawn < Piece
-    def initialize(r,c)
+    def initialize(r,c,board_array)
         @color ="black" 
         @symbol="♙"
         @r=r
         @c=c
+        @board_array=board_array
         @position=[[r],[c]]
         @move_count=0
-        @valid_moves=[]
+        @moves=[]
         @attacking=[]
     end
-    def get_valid_moves(board_array)
+    def get_moves(board_array)
         if board_array[@r+1][@c]==" "
-            @valid_moves.push([@r+1,@c])
+            @moves.push([@r+1,@c])
         end
         if board_array[@r+2][@c]==" " && board_array[@r+1][@c]==" " && @move_count==0
-            @valid_moves.push([@r,@c+2])
+            @moves.push([@r,@c+2])
         end
         if board_array[@r+1][@c+1] != " " && board_array[@r+1][@c+1].color =="white"
-            @valid_moves.push([@r+1][@c+1])
-            @attacking.push([@r+1][@c+1])
+            @moves.push([@r+1,@c+1])
+            @attacking.push([@r+1,@c+1])
         end
         if board_array[@r+1][@c-1] != " " && board_array[@r+1][@c-1].color =="white"
-            @valid_moves.push([@r+1][@c-1])
-            @attacking.push([@r+1][@c-1])
+            @moves.push([@r+1,@c-1])
+            @attacking.push([@r+1,@c-1])
         end
     end
 
-    attr_reader :symbol,:color
+    attr_reader :symbol,:color,:moves,:attacking
 end
 class WhitePawn < Piece
     def initialize(r,c)
@@ -135,22 +139,22 @@ class WhitePawn < Piece
         @r=r
         @c=c
         @position=[[r],[c]]
-        @valid_moves=[]
+        @moves=[]
         @attacking=[]
         @move_count=0
     end
-    def get_valid_moves(board_array)
-        @valid_moves=[]
+    def get_moves(board_array)
+        @moves=[]
         @attacking=[]
         if board_array[@r-1][@c]==" "
-            @valid_moves.push([@r-1,@c])
+            @moves.push([@r-1,@c])
         end
         if board_array[@r-2][@c]==" " && board_array[@r-1][@c]==" " && @move_count==0
-            @valid_moves.push([@r-2,@c])
+            @moves.push([@r-2,@c])
         end
 
         if board_array[@r-1][@c-1] != " " && board_array[@r-1][@c-1].color =="black"
-            @valid_moves.push([@r-1,@c-1])
+            @moves.push([@r-1,@c-1])
             @attacking.push([@r-1,@c-1])
         end
         @x=board_array[@r+1][@c+1]
@@ -158,7 +162,7 @@ class WhitePawn < Piece
         @y=board_array[@r+1][@c+1].color
 
         if board_array[@r-1][@c+1] != " " && board_array[@r-1][@c+1].color =="black"
-            @valid_moves.push([@r-1,@c+1])
+            @moves.push([@r-1,@c+1])
             @attacking.push([@r-1,@c+1])
         end
     end

@@ -105,3 +105,29 @@ def get_moves(board_array)
 
     end
 end
+
+def print_board
+    puts "   0  1  2  3  4  5  6  7  "
+    @s=1
+    @r_num=0
+    @square=""
+    @board_array.each_with_index do |sub, i|
+        print "#{@r_num} "
+        sub.each_with_index do |row_element,j|
+            if row_element !=" "
+                @square=row_element.symbol
+            else
+                @square = " "
+            end
+            if @s.even?
+                print " #{@square} ".colorize(:background => :light_black)
+                @s+=1
+            else
+                print " #{@square} ".colorize(:background => :black)
+                @s+=1
+            end
+        end
+        puts 
+        @r_num+=1   
+        @s+=1
+    end

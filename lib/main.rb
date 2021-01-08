@@ -12,12 +12,14 @@ myboard.set_pieces
 myboard.add_black_pawn(5,0)
 myboard.add_black_pawn(5,2)
 myboard.add_black_rook(3,3)
-#myboard.print_board
-myboard.get_board_string
-#myboard.board_array[3][3].rook_scan(myboard.board_array)
-#a=myboard.board_array[3][3].moves
+rook=myboard.board_array[3][3]
+pawn = myboard.board_array[5][2]
+rook.rook_scan(myboard.board_array)
 
-a=myboard.board_string
-puts "#{a}"
+#a=myboard.board_array[3][3].moves
+pawn.get_moves(myboard.board_array)
+myboard.print_board(pawn.moves)
+myboard.print_board(rook.moves)
+#myboard.print_board(pawn.moves)
 puts "hi"
 
