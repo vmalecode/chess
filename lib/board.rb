@@ -4,7 +4,7 @@ class ChessBoard
         @board_array = Array.new(8," ") {Array.new(8," ")}
 
     end
-    attr_accessor :board_array
+    attr_accessor :board_array, :board_string
     def print_board
         puts "   0  1  2  3  4  5  6  7  "
         @s=1
@@ -68,9 +68,7 @@ class ChessBoard
                 @board_array[i+2][j]=" "
             end
         end
-            #adding testing conditions here------
-            @board_array[2][1]=WhiteRook.new(2,1)
-            #end test conditions --------
+
          
     end
     def move_piece(r1,c1,r2,c2)
@@ -78,5 +76,46 @@ class ChessBoard
         @board_array[r2][c2].change_position(r2,c2)
         @board_array[r1][c1]=" "
     end
+    def add_white_pawn(r1,c1)
+    @board_array[r1][c1]=WhitePawn.new(r1,c1)
+    end
+    def add_black_pawn(r1,c1)
+        @board_array[r1][c1]=BlackPawn.new(r1,c1)
+    end
+    def add_black_rook(r1,c1)
+        @board_array[r1][c1]=BlackRook.new(r1,c1)
+    end
+    def highlight(move_array) #highlights squares that can be moved to
+        move_array.each do |move|
+            @board_array[move[0]][move[1]]
+        end
+    end        
 
+
+    def get_board_string
+        @board_string= "   0  1  2  3  4  5  6  7  \n"
+        @s=1
+        @r_num=0
+        @square=""
+        @board_array.each_with_index do |sub, i|
+            @board_string=@board_string+ "#{@r_num} "
+            sub.each_with_index do |row_element,j|
+                if row_element !=" "
+                    @square=row_element.symbol
+                else
+                    @square = " "
+                end
+                if @s.even?
+                    @board_string= @board_string + " #{@square} ".colorize(:background => :light_black)
+                    @s+=1
+                else
+                    @board_string+ " #{@square} ".colorize(:background => :black)
+                    @s+=1
+                end
+            end
+            @board_string=@board_string+"\n" 
+            @r_num+=1   
+            @s+=1
+        end
+    end
 end

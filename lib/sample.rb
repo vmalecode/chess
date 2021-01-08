@@ -6,3 +6,102 @@
 @board_array[0][5]=BlackBishop.new(61)
 @board_array[0][3]=BlackQueen.new(59)
 @board_array[0][4]=BlackKing.new(60)
+board_array[@r][@c+@i]
+
+def get_moves(board_array)
+    if self.type =="rook"
+        @i=1
+        loop do 
+            #down
+            if board_array[@r+@i][@c]==" " 
+                @moves.push([@r+@i,@c])
+            end
+            if board_array[@r+@i][@c].color != self.color
+                @moves.push([@r+@i,@c])
+                @attacking.push([@r+@i,@c])
+            end
+            if board_array[@r+@i][@c] != " "
+                @continue_down = 0
+            end
+            # up
+            if board_array[@r-@i][@c]==" "
+                @moves.push([@r-@i,@c])
+            end
+            if board_array[@r-@i][@c].color != self.color
+                @moves.push([@r-@i,@c])
+                @attacking.push([@r-@i,@c])  
+            end
+            if board_array[@r-@i][@c] != " "
+                @continue_up= 0
+            end
+            #right
+            if board_array[@r][@c+@i]==" "
+                @moves.push([@r,@c+@i])
+            end
+            if board_array[@r][@c+@i].color != self.color
+                @moves.push([@r,@c+@i])
+                @attacking.push([@r,@c+@i]) 
+            end
+            if board_array[@r][@c+@i]!=" "
+                @continue_right=0
+            end    def get_moves(board_array)
+    if self.type =="rook"
+        @i=1
+        loop do 
+            #down
+            if board_array[@r+@i][@c]==" " 
+                @moves.push([@r+@i,@c])
+            end
+            if board_array[@r+@i][@c].color != self.color
+                @moves.push([@r+@i,@c])
+                @attacking.push([@r+@i,@c])
+            end
+            if board_array[@r+@i][@c] != " "
+                @continue_down = 0
+            end
+            # up
+            if board_array[@r-@i][@c]==" "
+                @moves.push([@r-@i,@c])
+            end
+            if board_array[@r-@i][@c].color != self.color
+                @moves.push([@r-@i,@c])
+                @attacking.push([@r-@i,@c])  
+            end
+            if board_array[@r-@i][@c] != " "
+                @continue_up= 0
+            end
+            #right
+            if board_array[@r][@c+@i]==" "
+                @moves.push([@r,@c+@i])
+            end
+            if board_array[@r][@c+@i].color != self.color
+                @moves.push([@r,@c+@i])
+                @attacking.push([@r,@c+@i]) 
+            end
+            if board_array[@r][@c+@i]!=" "
+                @continue_right=0
+            end
+            #left
+            if board_array[@r][@c-@i]==" "
+                @moves.push([@r,@c-@i])
+            end
+            if board_array[@r][@c-@i].color != self.color
+                @moves.push([@r,@c-@i])
+                @attacking.push([@r,@c-@i]) 
+            end
+            if board_array[@r][@c-@i]!=" "
+                @continue_left=0
+            end
+
+            break if @continue_down+@continue_up+@continue_right+@continue_left==0
+            break if @i>9
+            @i+=1
+        end
+
+
+
+
+    elsif
+
+    end
+end
