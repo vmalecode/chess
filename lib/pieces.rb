@@ -16,18 +16,18 @@ class Piece
         @position = [[row],[column]]
         @move_count+=1
     end
-    def rook_scan(board_array) #scans up,down,left, right. returns squares that a rook could move to
-        right_scan(board_array)
-        left_scan(board_array)
-        up_scan(board_array)
-        down_scan(board_array)
+    def rook_scan() #scans up,down,left, right. returns squares that a rook could move to
+        right_scan()
+        left_scan()
+        up_scan()
+        down_scan()
     end
-    def right_scan(board_array) #scans right, returns moves
+    def right_scan() #scans right, returns moves
         @continue = 1
         @i=1
         while @continue !=0 
             break if (@c+@i)>7
-            @square = board_array[@r][@c+@i]
+            @square = @board_array[@r][@c+@i]
             if @square==" " 
                 @moves.push([@r,@c+@i])
             elsif @square.color != self.color 
@@ -40,12 +40,12 @@ class Piece
         @i+=1
         end
     end
-    def left_scan(board_array)
+    def left_scan()
         @continue = 1
         @i=1
         while @continue !=0 
             break if (@c-@i)<0 
-            @square = board_array[@r][@c-@i]
+            @square = @board_array[@r][@c-@i]
             if @square==" " 
                 @moves.push([@r,@c-@i])
             elsif @square.color != self.color 
@@ -58,12 +58,12 @@ class Piece
         @i+=1
         end
     end
-    def down_scan(board_array)
+    def down_scan()
         @continue = 1
         @i=1
         while @continue !=0 
             break if (@r+@i)>7 
-            @square = board_array[@r+@i][@c]
+            @square = @board_array[@r+@i][@c]
             if @square==" " 
                 @moves.push([@r+@i,@c])
             elsif @square.color != self.color 
@@ -76,12 +76,32 @@ class Piece
         @i+=1
         end
     end
-    def up_scan(board_array)
+    def ur_diag_scan # scan up and right diagonal
+        @continue = 1
+        @i=1
+        while @continue !=0 
+            break if (@c+@i)>7
+            break if (@r-@i)<0
+            @square = @board_array[@r-@i][@c+@i]
+            @square_coordinates = [@r-@i,@c+@i]
+            if @square==" " 
+                @moves.push(@square_coordinates)
+            elsif @square.color != self.color 
+                @moves.push(@square_coordinates)
+                @attacking.push(@square_coordinates) 
+            end
+            if @square!=" "
+                @continue=0
+            end
+        @i+=1
+        end
+    end
+    def up_scan
         @continue = 1
         @i=1
         while @continue !=0 
             break if (@r-@i)<0 
-            @square = board_array[@r-@i][@c]
+            @square = @board_array[@r-@i][@c]
             if @square==" " 
                 @moves.push([@r-@i,@c])
             elsif @square.color != self.color 
@@ -94,8 +114,109 @@ class Piece
         @i+=1
         end
     end
-    def knight_moves(board_array)
-
+    def ul_diag_scan # scan up and left diagonal
+        @continue = 1
+        @i=1
+        while @continue !=0 
+            break if (@c-@i)<0
+            break if (@r-@i)<0
+            @square = @board_array[@r-@i][@c-@i]
+            @square_coordinates = [@r-@i,@c-@i]
+            if @square==" " 
+                @moves.push(@square_coordinates)
+            elsif @square.color != self.color 
+                @moves.push(@square_coordinates)
+                @attacking.push(@square_coordinates) 
+            end
+            if @square!=" "
+                @continue=0
+            end
+        @i+=1
+        end
+    end
+    def dl_diag_scan # scan down and left diagonal
+        @continue = 1
+        @i=1
+        while @continue !=0 
+            break if (@c-@i)<0
+            break if (@r+@i)>7
+            @square = @board_array[@r+@i][@c-@i]
+            @square_coordinates = [@r+@i,@c-@i]
+            if @square==" " 
+                @moves.push(@square_coordinates)
+            elsif @square.color != self.color 
+                @moves.push(@square_coordinates)
+                @attacking.push(@square_coordinates) 
+            end
+            if @square!=" "
+                @continue=0
+            end
+        @i+=1
+        end
+    end
+    def dr_diag_scan # scan down and right diagonal
+        @continue = 1
+        @i=1
+        while @continue !=0 
+            break if (@c+@i)>7
+            break if (@r+@i)>7
+            @square = @board_array[@r+@i][@c+@i]
+            @square_coordinates = [@r+@i,@c+@i]
+            if @square==" " 
+                @moves.push(@square_coordinates)
+            elsif @square.color != self.color 
+                @moves.push(@square_coordinates)
+                @attacking.push(@square_coordinates) 
+            end
+            if @square!=" "
+                @continue=0
+            end
+        @i+=1
+        end
+    end
+    def knight_scan()
+        @knight_moves=[[1,2],[1,-2],[-1,2],[-1,-2],[2,1],[2,-1],[-2,1],[-2,-1]]
+        @knight_moves.each do |move|
+            @square=nil
+            @x = @board_array[1][1]
+            @a=move[0]+@r
+            @b=move[1]+@c
+            next move if @a>7 || @a<0 ||@b>7||@b<0
+            @square = @board_array[move[0]+@r][move[1]+@c]
+            @square_coordinates = [move[0]+@r,move[1]+@c]
+            if @square!=nil && @square==" "
+                @moves.push(@square_coordinates)
+            elsif @square!=nil && @square.color !=self.color
+                @moves.push(@square_coordinates)
+                @attacking.push(@square_coordinates)
+            end
+        end
+    end
+    def bishop_scan
+        ur_diag_scan
+        ul_diag_scan
+        dr_diag_scan
+        dl_diag_scan
+    end
+    def queen_scan
+        bishop_scan
+        rook_scan
+    end
+    def king_scan()
+        @king_moves=[[0,1],[1,1],[1,0],[-1,1],[1,-1],[0,-1],[-1,-1],[-1,0]]
+        @king_moves.each do |move|
+            @a=move[0]+@r
+            @b=move[1]+@c
+            next move if @a<0 || @a>7 || @b<0 || @b>7
+            @square = @board_array[move[0]+@r][move[1]+@c]
+            @square_coordinates = [move[0]+@r,move[1]+@c]
+            if @square!=nil && @square==" "
+                @moves.push(@square_coordinates)
+            elsif @square!=nil && @square.color !=self.color
+                @moves.push(@square_coordinates)
+                @attacking.push(@square_coordinates)
+            end
+        end
     end
 
 
@@ -113,18 +234,18 @@ class BlackPawn < Piece
         @moves=[]
         @attacking=[]
     end
-    def get_moves(board_array)
-        if board_array[@r+1][@c]==" "
+    def get_moves
+        if @board_array[@r+1][@c]==" "
             @moves.push([@r+1,@c])
         end
-        if board_array[@r+2][@c]==" " && board_array[@r+1][@c]==" " && @move_count==0
+        if @board_array[@r+2][@c]==" " && @board_array[@r+1][@c]==" " && @move_count==0
             @moves.push([@r,@c+2])
         end
-        if board_array[@r+1][@c+1] != " " && board_array[@r+1][@c+1].color =="white"
+        if @board_array[@r+1][@c+1] != " " && @board_array[@r+1][@c+1].color =="white"
             @moves.push([@r+1,@c+1])
             @attacking.push([@r+1,@c+1])
         end
-        if board_array[@r+1][@c-1] != " " && board_array[@r+1][@c-1].color =="white"
+        if @board_array[@r+1][@c-1] != " " && @board_array[@r+1][@c-1].color =="white"
             @moves.push([@r+1,@c-1])
             @attacking.push([@r+1,@c-1])
         end
@@ -133,7 +254,7 @@ class BlackPawn < Piece
     attr_reader :symbol,:color,:moves,:attacking
 end
 class WhitePawn < Piece
-    def initialize(r,c)
+    def initialize(r,c,board_array)
         @color ="white" 
         @symbol="♟︎"
         @r=r
@@ -142,26 +263,24 @@ class WhitePawn < Piece
         @moves=[]
         @attacking=[]
         @move_count=0
+        @board_array=board_array
     end
-    def get_moves(board_array)
+    def get_moves()
         @moves=[]
         @attacking=[]
-        if board_array[@r-1][@c]==" "
+        if @board_array[@r-1][@c]==" "
             @moves.push([@r-1,@c])
         end
-        if board_array[@r-2][@c]==" " && board_array[@r-1][@c]==" " && @move_count==0
+        if @board_array[@r-2][@c]==" " && @board_array[@r-1][@c]==" " && @move_count==0
             @moves.push([@r-2,@c])
         end
 
-        if board_array[@r-1][@c-1] != " " && board_array[@r-1][@c-1].color =="black"
+        if (@c-1) >0 && @board_array[@r-1][@c-1] != " " && @board_array[@r-1][@c-1].color =="black"
             @moves.push([@r-1,@c-1])
             @attacking.push([@r-1,@c-1])
         end
-        @x=board_array[@r+1][@c+1]
-        @y=board_array[@r+1][@c+1].color
-        @y=board_array[@r+1][@c+1].color
 
-        if board_array[@r-1][@c+1] != " " && board_array[@r-1][@c+1].color =="black"
+        if (@c+1) <7 && @board_array[@r-1][@c+1] != " " && @board_array[@r-1][@c+1].color =="black"
             @moves.push([@r-1,@c+1])
             @attacking.push([@r-1,@c+1])
         end
@@ -170,107 +289,165 @@ class WhitePawn < Piece
 end
 
 class WhiteRook < Piece
-    def initialize(r,c)
+    def initialize(r,c,board_array)
         @color ="white" 
         @symbol="♜"
+        @board_array=board_array
         @r=r
         @c=c
         @position=[[r],[c]]
         @type = "rook"
+        @moves=[]
+        @attacking=[]
     end
     attr_reader :symbol,:color
+    def get_moves
+    self.rook_scan
+    end
 
 end
 class WhiteKnight < Piece
-    def initialize(r,c)
+    def initialize(r,c,board_array)
         @color ="white" 
         @symbol="♞"
-        @r=r
-        @c=c
-        @position=[[r],[c]]
-    end
-    attr_reader :symbol,:color
-end
-class WhiteBishop < Piece
-    def initialize(r,c)
-        @color ="white" 
-        @symbol="♝"
-        @r=r
-        @c=c
-        @position=[[r],[c]]
-    end
-    attr_reader :symbol,:color
-end
-class WhiteKing < Piece
-    def initialize(r,c)
-        @color ="white" 
-        @symbol="♚"
-        @r=r
-        @c=c
-        @position=[[r],[c]]
-    end
-    attr_reader :symbol,:color
-end
-class WhiteQueen < Piece
-    def initialize(r,c)
-        @color ="white" 
-        @symbol="♛"
-        @r=r
-        @c=c
-        @position=[[r],[c]]
-    end
-    attr_reader :symbol,:color
-end
-
-class BlackRook < Piece
-    def initialize(r,c)
-        @color ="black" 
-        @symbol="♖"
+        @board_array=board_array
         @r=r
         @c=c
         @position=[[r],[c]]
         @moves=[]
         @attacking=[]
     end
+    attr_reader :symbol,:color,:r,:c,:board_array
+    def get_moves
+    self.knight_scan
+    end
+end
+class WhiteBishop < Piece
+    def initialize(r,c,board_array)
+        @color ="white" 
+        @symbol="♝"
+        @r=r
+        @c=c
+        @position=[[r],[c]]
+        @board_array=board_array
+        @moves=[]
+        @attacking=[]
+    end
+    def get_moves
+        self.bishop_scan
+    end
+    attr_reader :symbol,:color
+end
+class WhiteKing < Piece
+    def initialize(r,c,board_array)
+        @color ="white" 
+        @symbol="♚"
+        @r=r
+        @c=c
+        @position=[[r],[c]]
+        @board_array=board_array
+        @moves=[]
+        @attacking=[]
+    end
+    def get_moves
+        self.king_scan
+    end
+    attr_reader :symbol,:color
+end
+class WhiteQueen < Piece
+    def initialize(r,c,board_array)
+        @color ="white" 
+        @symbol="♛"
+        @r=r
+        @c=c
+        @position=[[r],[c]]
+        @board_array=board_array
+        @moves=[]
+        @attacking=[]
+    end
+    def get_moves
+        self.queen_scan
+    end
+    attr_reader :symbol,:color
+end
+
+class BlackRook < Piece
+    def initialize(r,c,board_array)
+        @color ="black" 
+        @symbol="♖"
+        @r=r
+        @c=c
+        @board_array=board_array
+        @position=[[r],[c]]
+        @moves=[]
+        @attacking=[]
+    end
+    def get_moves
+        self.rook_scan
+    end
     attr_reader :symbol,:color,:moves
 end
 class BlackKnight < Piece
-    def initialize(r,c)
+    def initialize(r,c,board_array)
         @color ="black" 
         @symbol="♘"
         @r=r
         @c=c
         @position=[[r],[c]]
+        @board_array=board_array
+        @moves=[]
+        @attacking=[]
+    end
+    def get_moves
+        self.knight_scan
     end
     attr_reader :symbol,:color
 end
 class BlackBishop < Piece
-    def initialize(r,c)
+    def initialize(r,c,board_array)
         @color ="black" 
         @symbol="♙"
         @r=r
         @c=c
         @position=[[r],[c]]
+        @board_array=board_array
+        @moves=[]
+        @attacking=[]
+    end
+    def get_moves
+        self.bishop_scan
     end
     attr_reader :symbol,:color
 end
 class BlackKing < Piece
-    def initialize(r,c)
+    def initialize(r,c,board_array)
         @color ="black" 
         @symbol="♔"
         @r=r
         @c=c
         @position=[[r],[c]]
+        @board_array=board_array
+        @moves=[]
+        @attacking=[]
+    end
+    def get_moves
+        self.king_scan
     end
     attr_reader :symbol,:color
 end
 class BlackQueen < Piece
-    def initialize(r,c)
+    def initialize(r,c,board_array)
         @color ="black" 
         @symbol="♕"
         @r=r
         @c=c
         @position=[[r],[c]]
+        @board_array=board_array
+        @moves=[]
+        @attacking=[]
+    end
+    def get_moves
+        self.queen_scan
     end
     attr_reader :symbol,:color
 end

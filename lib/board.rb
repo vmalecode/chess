@@ -45,31 +45,31 @@ class ChessBoard
     end
     def set_pieces #sets all squares to starting position
         @board_array[6].each_with_index do |sub,i|
-            @board_array[6][i]=WhitePawn.new(6,i)
+            @board_array[6][i]=WhitePawn.new(6,i,self.board_array)
         end
 
         @board_array[1].each_with_index do |space,i|
-            @board_array[1][i]=BlackPawn.new(1,i)
+            @board_array[1][i]=BlackPawn.new(1,i,self.board_array)
         end
 
 
-        @board_array[7][0]=WhiteRook.new(7,0)
-        @board_array[7][7]=WhiteRook.new(7,7)
-        @board_array[7][1]=WhiteKnight.new(7,1)
-        @board_array[7][6]=WhiteKnight.new(7,6)
-        @board_array[7][2]=WhiteBishop.new(7,2)
-        @board_array[7][5]=WhiteBishop.new(7,5)
-        @board_array[7][3]=WhiteQueen.new(7,3)
-        @board_array[7][4]=WhiteKing.new(7,4)
+        @board_array[7][0]=WhiteRook.new(7,0,self.board_array)
+        @board_array[7][7]=WhiteRook.new(7,7,self.board_array)
+        @board_array[7][1]=WhiteKnight.new(7,1,self.board_array)
+        @board_array[7][6]=WhiteKnight.new(7,6,self.board_array)
+        @board_array[7][2]=WhiteBishop.new(7,2,self.board_array)
+        @board_array[7][5]=WhiteBishop.new(7,5,self.board_array)
+        @board_array[7][3]=WhiteQueen.new(7,3,self.board_array)
+        @board_array[7][4]=WhiteKing.new(7,4,self.board_array)
 
-        @board_array[0][0]=BlackRook.new(0,0)
-        @board_array[0][7]=BlackRook.new(0,7)
-        @board_array[0][1]=BlackKnight.new(0,1)
-        @board_array[0][6]=BlackKnight.new(0,6)
-        @board_array[0][2]=BlackBishop.new(0,2)
-        @board_array[0][5]=BlackBishop.new(0,5)
-        @board_array[0][3]=BlackQueen.new(0,3)
-        @board_array[0][4]=BlackKing.new(0,4)
+        @board_array[0][0]=BlackRook.new(0,0,self.board_array)
+        @board_array[0][7]=BlackRook.new(0,7,self.board_array)
+        @board_array[0][1]=BlackKnight.new(0,1,self.board_array)
+        @board_array[0][6]=BlackKnight.new(0,6,self.board_array)
+        @board_array[0][2]=BlackBishop.new(0,2,self.board_array)
+        @board_array[0][5]=BlackBishop.new(0,5,self.board_array)
+        @board_array[0][3]=BlackQueen.new(0,3,self.board_array)
+        @board_array[0][4]=BlackKing.new(0,4,self.board_array)
 
 
 
@@ -87,19 +87,19 @@ class ChessBoard
         @board_array[r1][c1]=" "
     end
     def add_white_pawn(r1,c1)
-        @board_array[r1][c1]=WhitePawn.new(r1,c1)
+        @board_array[r1][c1]=WhitePawn.new(r1,c1,self.board_array)
     end
     def add_black_pawn(r1,c1)
-        @board_array[r1][c1]=BlackPawn.new(r1,c1)
+        @board_array[r1][c1]=BlackPawn.new(r1,c1,self.board_array)
     end
     def add_black_rook(r1,c1)
-        @board_array[r1][c1]=BlackRook.new(r1,c1)
+        @board_array[r1][c1]=BlackRook.new(r1,c1,self.board_array)
     end
-    def highlight(move_array) #highlights squares that can be moved to
-        move_array.each do |move|
-            @board_array[move[0]][move[1]]
-        end
-    end        
-
+    def add_black_knight(r1,c1)
+        @board_array[r1][c1]=BlackKnight.new(r1,c1,self.board_array)
+    end     
+    def add_white_rook(r1,c1)
+        @board_array[r1][c1]=WhiteRook.new(r1,c1,self.board_array)
+    end   
 
 end
