@@ -13,7 +13,7 @@ class Piece
     def change_position(row,column)
         @r = row
         @c = column
-        @position = [[row],[column]]
+        @position = [row,column]
         @move_count+=1
     end
     def rook_scan() #scans up,down,left, right. returns squares that a rook could move to
@@ -229,17 +229,19 @@ class BlackPawn < Piece
         @r=r
         @c=c
         @board_array=board_array
-        @position=[[r],[c]]
+        @position=[r,c]
         @move_count=0
         @moves=[]
         @attacking=[]
     end
     def get_moves
+        @moves=[]
+        @attacking=[]
         if @board_array[@r+1][@c]==" "
             @moves.push([@r+1,@c])
         end
         if @board_array[@r+2][@c]==" " && @board_array[@r+1][@c]==" " && @move_count==0
-            @moves.push([@r,@c+2])
+            @moves.push([@r+2,@c])
         end
         if @board_array[@r+1][@c+1] != " " && @board_array[@r+1][@c+1].color =="white"
             @moves.push([@r+1,@c+1])
@@ -259,7 +261,7 @@ class WhitePawn < Piece
         @symbol="♟︎"
         @r=r
         @c=c
-        @position=[[r],[c]]
+        @position=[r,c]
         @moves=[]
         @attacking=[]
         @move_count=0
@@ -295,13 +297,15 @@ class WhiteRook < Piece
         @board_array=board_array
         @r=r
         @c=c
-        @position=[[r],[c]]
+        @position=[r,c]
         @type = "rook"
         @moves=[]
         @attacking=[]
     end
     attr_reader :symbol,:color
     def get_moves
+        @moves=[]
+        @attacking=[]
     self.rook_scan
     end
 
@@ -313,12 +317,15 @@ class WhiteKnight < Piece
         @board_array=board_array
         @r=r
         @c=c
-        @position=[[r],[c]]
+        @position=[r,c]
         @moves=[]
         @attacking=[]
+        @move_count=0
     end
     attr_reader :symbol,:color,:r,:c,:board_array
     def get_moves
+        @moves=[]
+        @attacking=[]
     self.knight_scan
     end
 end
@@ -328,12 +335,15 @@ class WhiteBishop < Piece
         @symbol="♝"
         @r=r
         @c=c
-        @position=[[r],[c]]
+        @position=[r,c]
         @board_array=board_array
         @moves=[]
         @attacking=[]
+        @move_count=0
     end
     def get_moves
+        @moves=[]
+        @attacking=[]
         self.bishop_scan
     end
     attr_reader :symbol,:color
@@ -341,18 +351,23 @@ end
 class WhiteKing < Piece
     def initialize(r,c,board_array)
         @color ="white" 
+        @type ="King"
         @symbol="♚"
         @r=r
         @c=c
-        @position=[[r],[c]]
+        @position=[r,c]
         @board_array=board_array
         @moves=[]
         @attacking=[]
+        @in_check=false
     end
     def get_moves
+        @moves=[]
+        @attacking=[]
         self.king_scan
     end
     attr_reader :symbol,:color
+    attr_accessor :in_check
 end
 class WhiteQueen < Piece
     def initialize(r,c,board_array)
@@ -360,12 +375,15 @@ class WhiteQueen < Piece
         @symbol="♛"
         @r=r
         @c=c
-        @position=[[r],[c]]
+        @position=[r,c]
         @board_array=board_array
         @moves=[]
         @attacking=[]
+        @move_count=0
     end
     def get_moves
+        @moves=[]
+        @attacking=[]
         self.queen_scan
     end
     attr_reader :symbol,:color
@@ -378,11 +396,13 @@ class BlackRook < Piece
         @r=r
         @c=c
         @board_array=board_array
-        @position=[[r],[c]]
+        @position=[r,c]
         @moves=[]
         @attacking=[]
     end
     def get_moves
+        @moves=[]
+        @attacking=[]
         self.rook_scan
     end
     attr_reader :symbol,:color,:moves
@@ -393,12 +413,15 @@ class BlackKnight < Piece
         @symbol="♘"
         @r=r
         @c=c
-        @position=[[r],[c]]
+        @position=[r,c]
         @board_array=board_array
         @moves=[]
         @attacking=[]
+        @move_count=0
     end
     def get_moves
+        @moves=[]
+        @attacking=[]
         self.knight_scan
     end
     attr_reader :symbol,:color
@@ -409,12 +432,15 @@ class BlackBishop < Piece
         @symbol="♙"
         @r=r
         @c=c
-        @position=[[r],[c]]
+        @position=[r,c]
         @board_array=board_array
         @moves=[]
         @attacking=[]
+        @move_count=0
     end
     def get_moves
+        @moves=[]
+        @attacking=[]
         self.bishop_scan
     end
     attr_reader :symbol,:color
@@ -425,15 +451,20 @@ class BlackKing < Piece
         @symbol="♔"
         @r=r
         @c=c
-        @position=[[r],[c]]
+        @position=[r,c]
         @board_array=board_array
         @moves=[]
         @attacking=[]
+        @move_count=0
+        @in_check=false
     end
     def get_moves
+        @moves=[]
+        @attacking=[]
         self.king_scan
     end
     attr_reader :symbol,:color
+    attr_accessor :in_check
 end
 class BlackQueen < Piece
     def initialize(r,c,board_array)
@@ -441,12 +472,15 @@ class BlackQueen < Piece
         @symbol="♕"
         @r=r
         @c=c
-        @position=[[r],[c]]
+        @position=[r,c]
         @board_array=board_array
         @moves=[]
         @attacking=[]
+        @move_count=0
     end
     def get_moves
+        @moves=[]
+        @attacking=[]
         self.queen_scan
     end
     attr_reader :symbol,:color
