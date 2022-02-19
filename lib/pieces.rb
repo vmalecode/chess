@@ -243,11 +243,11 @@ class BlackPawn < Piece
         if @board_array[@r+2][@c]==" " && @board_array[@r+1][@c]==" " && @move_count==0
             @moves.push([@r+2,@c])
         end
-        if @board_array[@r+1][@c+1] != " " && @board_array[@r+1][@c+1].color =="white"
+        if (@c+1) <= 7 && @board_array[@r+1][@c+1] != " " && @board_array[@r+1][@c+1].color =="white"
             @moves.push([@r+1,@c+1])
             @attacking.push([@r+1,@c+1])
         end
-        if @board_array[@r+1][@c-1] != " " && @board_array[@r+1][@c-1].color =="white"
+        if (@c-1) >= 0 && @board_array[@r+1][@c-1] != " " && @board_array[@r+1][@c-1].color =="white"
             @moves.push([@r+1,@c-1])
             @attacking.push([@r+1,@c-1])
         end

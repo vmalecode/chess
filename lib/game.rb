@@ -66,19 +66,6 @@ class Game
         @myboard.print_board
         @i+=1
     end
-    def check_check(color)
-        @team_attack=[]
-        @myboard.each |square|
-            if square != " " && square.color == color && square.type=="king"
-                
-            end
-            next square if square = " " || square.color == color
-            square.get_moves
-            @team_attack.push(square.attacking) if square.attacking != nil
-
-        end
-    end
-
 
 attr_accessor :myboard
 
