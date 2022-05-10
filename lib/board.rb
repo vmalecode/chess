@@ -1,12 +1,12 @@
 require 'colorize'
 class ChessBoard
     def initialize
-        @board_array = Array.new(8," ") {Array.new(8," ")}
+        @board_array = Array.new(8) {Array.new(8," ")}
 
     end
     attr_accessor :board_array, :board_string
     def print_board(moves=[])
-        puts "   0  1  2  3  4  5  6  7  "
+        puts "   0  1  2  3  4      5  6  7  "
         @s=1
         @r_num=0
         @square=""
